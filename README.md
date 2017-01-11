@@ -1,1 +1,1 @@
-# gamesvr-hl2dm
+# gamesvr-srcds-hl2dm
