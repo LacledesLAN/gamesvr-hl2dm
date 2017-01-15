@@ -2,9 +2,28 @@ FROM lacledeslan/gamesvr-srcds:linux
 
 MAINTAINER Laclede's LAN <contact@lacledeslan.com>
 
-ENV SERVER_NAME="gamesvr-srcds-hl2dm:linux"
+ENV IMAGE="gamesvr-srcds-hl2dm:linux"
 
-WORKDIR /app/bin/
+USER root
+
+# Install LL maps from public ftp
+# (done before app install so we don't accidentally overwrite stock content)
+RUN echo "Downloading maps from content server" &&`
+		mkdir --parents /tmp/maps/ &&`
+		cd /tmp/maps/ &&`
+		wget -m `
+			ftp://llgameserverbot:6gDyfNJhm4UsraE5@raw.content.lacledeslan.net/hl2dm/maps/ `
+			-nH --no-verbose --cut-dirs 4 &&`
+		rm -f .listing &&`
+	echo "Decompressing files" &&`
+		bzip2 --decompress /tmp/maps/*.*.bz2 &&`
+		rm -f /tmp/maps/*.bz2 &&`
+	echo "Moving uncompressed files to destination" &&`
+		mkdir --parents /app/bin/hl2mp/maps/ &&`
+		mv /tmp/maps/*.bsp /app/bin/hl2mp/maps/ &&`
+		mv /tmp/maps/*.nav /app/bin/hl2mp/maps/ &&`
+	echo "Performing Cleanup" &&`
+		rm -rf /tmp/*;
 
 # Install Half-Life 2: Deatmatch
 RUN useradd \
@@ -24,5 +43,7 @@ RUN useradd \
 COPY ./dist/ /app/bin/
 
 USER HL2DM
+
+WORKDIR /app/bin/
 
 CMD ["/bin/bash"]
