@@ -23,7 +23,6 @@ RUN echo "Downloading maps from content server" &&`
 	echo "Moving uncompressed files to destination" &&`
 		mkdir --parents /app/bin/hl2mp/maps/ &&`
 		mv /tmp/maps/*.bsp /app/bin/hl2mp/maps/ &&`
-		mv /tmp/maps/*.nav /app/bin/hl2mp/maps/ &&`
 	echo "Performing Cleanup" &&`
 		rm -rf /tmp/*;
 
