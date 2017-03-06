@@ -39,8 +39,8 @@ RUN useradd `
 			+app_update 232370 validate `
 			+quit &&`
 	# Set permissions &&`
-		chown -R HL2DM /app/bin
-	
+		chown --recursive HL2DM /app/
+
 COPY ./dist/ /app/bin/
 
 USER HL2DM
