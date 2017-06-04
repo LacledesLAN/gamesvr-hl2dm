@@ -2,9 +2,14 @@
 
 FROM lacledeslan/gamesvr-srcds:linux
 
-MAINTAINER Laclede's LAN <contact@lacledeslan.com>
+LABEL maintainer "Laclede's LAN <contact@lacledeslan.com>"
 
 ENV IMAGE="gamesvr-srcds-hl2dm:linux"
+
+HEALTHCHECK NONE
+
+# Copy files (if any) from the build-cache
+COPY ./build-cache/ /app/bin/
 
 USER root
 
@@ -40,8 +45,6 @@ RUN useradd `
 			+quit &&`
 	# Set permissions &&`
 		chown --recursive HL2DM /app/
-
-COPY ./dist/ /app/bin/
 
 USER HL2DM
 
