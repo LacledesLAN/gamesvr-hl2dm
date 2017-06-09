@@ -10,12 +10,12 @@ HEALTHCHECK NONE
 
 # Set up user
 RUN useradd `
-		--home /app/bin `
-		--gid srcds `
-		--shell /bin/bash `
-		--system `
-		HL2DM &&`
-	chown -R HL2DM:srcds /app/bin
+        --home /app/bin `
+        --gid srcds `
+        --shell /bin/bash `
+        --system `
+        HL2DM &&`
+    chown -R HL2DM:srcds /app/bin
 
 USER HL2DM
 
@@ -24,34 +24,34 @@ COPY ./build-cache/ /app/bin/
 
 # Custom content (done before app install so we don't accidentally overwrite stock content)
 RUN echo "Downloading content from LL public ftp server" &&`
-		mkdir --parents /tmp/maps/ &&`
-		cd /tmp/maps/ &&`
-		wget -m `
-			ftp://llgameserverbot:6gDyfNJhm4UsraE5@raw.content.lacledeslan.net/hl2dm/maps/ `
-			-nH --no-verbose --cut-dirs 4 &&`
-		rm -f .listing &&`
-	echo "Decompressing files" &&`
-		bzip2 --decompress /tmp/maps/*.*.bz2 &&`
-		rm -f /tmp/maps/*.bz2 &&`
-	echo "Moving uncompressed files to destination" &&`
-		mkdir --parents /app/bin/hl2mp/maps/ &&`
-		mv /tmp/maps/*.bsp /app/bin/hl2mp/maps/ &&`
-	echo "Performing Cleanup" &&`
-		rm -rf /tmp/*/*;
+        mkdir --parents /tmp/maps/ &&`
+        cd /tmp/maps/ &&`
+        wget -m `
+            ftp://llgameserverbot:6gDyfNJhm4UsraE5@raw.content.lacledeslan.net/hl2dm/maps/ `
+            -nH --no-verbose --cut-dirs 4 &&`
+        rm -f .listing &&`
+    echo "Decompressing files" &&`
+        bzip2 --decompress /tmp/maps/*.*.bz2 &&`
+        rm -f /tmp/maps/*.bz2 &&`
+    echo "Moving uncompressed files to destination" &&`
+        mkdir --parents /app/bin/hl2mp/maps/ &&`
+        mv /tmp/maps/*.bsp /app/bin/hl2mp/maps/ &&`
+    echo "Performing Cleanup" &&`
+        rm -rf /tmp/*/*;
 
 # Copy files (if any) from the build-cache
 COPY ./build-cache/ /app/bin/
 
 # Install Half-Life 2: Deathmatch
 RUN echo "Downloading SHalf-Life 2: Deathmatch via SteamCMD" &&`
-		/app/steamcmd/steamcmd.sh `
-			+login anonymous `
-			+force_install_dir /app/bin/ `
-			+app_update 232370 validate `
-			+quit
+        /app/steamcmd/steamcmd.sh `
+            +login anonymous `
+            +force_install_dir /app/bin/ `
+            +app_update 232370 validate `
+            +quit
 
 WORKDIR /app/bin/
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["/bin/sh"]
 
 ONBUILD USER root
