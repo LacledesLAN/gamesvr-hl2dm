@@ -37,7 +37,7 @@ RUN echo "Downloading content from LL public ftp server" &&`
 		mkdir --parents /app/bin/hl2mp/maps/ &&`
 		mv /tmp/maps/*.bsp /app/bin/hl2mp/maps/ &&`
 	echo "Performing Cleanup" &&`
-		rm -rf /tmp/*;
+		rm -rf /tmp/*/*;
 
 # Copy files (if any) from the build-cache
 COPY ./build-cache/ /app/bin/
