@@ -8,14 +8,22 @@ ENV IMAGE="gamesvr-srcds-hl2dm:linux"
 
 HEALTHCHECK NONE
 
+# Set up user
+RUN useradd `
+		--home /app/bin `
+		--gid srcds `
+		--shell /bin/bash `
+		--system `
+		HL2DM &&`
+	chown -R HL2DM:srcds /app/bin
+
+USER HL2DM
+
 # Copy files (if any) from the build-cache
 COPY ./build-cache/ /app/bin/
 
-USER root
-
-# Install LL maps from public ftp
-# (done before app install so we don't accidentally overwrite stock content)
-RUN echo "Downloading maps from content server" &&`
+# Custom content (done before app install so we don't accidentally overwrite stock content)
+RUN echo "Downloading content from LL public ftp server" &&`
 		mkdir --parents /tmp/maps/ &&`
 		cd /tmp/maps/ &&`
 		wget -m `
@@ -31,23 +39,19 @@ RUN echo "Downloading maps from content server" &&`
 	echo "Performing Cleanup" &&`
 		rm -rf /tmp/*;
 
-# Install Half-Life 2: Deatmatch
-RUN useradd `
-		--shell /bin/bash `
-		HL2DM &&`
-	# Create output directory &&`
-		mkdir /app/bin --parents &&`
-	# Download &&`
+# Copy files (if any) from the build-cache
+COPY ./build-cache/ /app/bin/
+
+# Install Half-Life 2: Deathmatch
+RUN echo "Downloading SHalf-Life 2: Deathmatch via SteamCMD" &&`
 		/app/steamcmd/steamcmd.sh `
 			+login anonymous `
 			+force_install_dir /app/bin/ `
 			+app_update 232370 validate `
-			+quit &&`
-	# Set permissions &&`
-		chown --recursive HL2DM /app/
-
-USER HL2DM
+			+quit
 
 WORKDIR /app/bin/
 
 CMD ["/bin/bash"]
+
+ONBUILD USER root
