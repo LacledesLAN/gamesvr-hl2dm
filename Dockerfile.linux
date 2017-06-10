@@ -52,6 +52,4 @@ RUN echo "Downloading SHalf-Life 2: Deathmatch via SteamCMD" &&`
 
 WORKDIR /app/bin/
 
-ENTRYPOINT ["/bin/sh"]
-
 ONBUILD USER root
