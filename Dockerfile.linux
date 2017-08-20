@@ -1,6 +1,6 @@
 # escape=`
 
-FROM lacledeslan/steamcmd:linux as steamcmd-builder
+FROM lacledeslan/steamcmd:linux as hl2dm-builder
 
 # Copy cached build files (if any)
 COPY ./build-cache/ /output
@@ -19,26 +19,12 @@ RUN echo $'\n\nDownloading LL custom content from public ftp server' &&`
         mkdir /app/output/hl2mp/maps --parents &&`
         mv /tmp/maps/*.* /output/hl2mp/maps;
 
-# Install HL2DM
-RUN echo $'\n\nDownloading Half-Life 2: Deathmatch via SteamCMD' &&`
-        /app/steamcmd.sh `
-            +login anonymous `
-            +force_install_dir /output `
-            +app_update 232370 validate `
-            +quit;
-
 #=======================================================================
-FROM i386/debian:stretch-slim
+FROM debian:stretch-slim
 
 ARG VCS_REF
 
 HEALTHCHECK NONE
-
-# Install dependencies
-RUN apt-get update && apt-get install -y `
-        libcurl3-gnutls libstdc++6 libncurses5 libz1 &&`
-    apt-get clean &&`
-    rm -rf /var/lib/apt/lists/*;
 
 LABEL MAINTAINER="Laclede's LAN <contact@lacledeslan.com>" `
       org.label-schema.url="https://github.com/LacledesLAN" `
@@ -48,23 +34,41 @@ LABEL MAINTAINER="Laclede's LAN <contact@lacledeslan.com>" `
       org.label-schema.description="Half-Life 2: Deathmatch in Docker" `
       org.label-schema.vcs-url="https://github.com/LacledesLAN/gamesvr-hl2dm"
 
-#Add user "HL2DM" (to user group "srcds")
-RUN groupadd --system srcds &&`
-    mkdir --parents /app/.steam/sdk32 &&`
-        chgrp srcds /app &&`
+## Dependencies & Environment
+RUN dpkg --add-architecture i386;
+
+RUN apt-get update && apt-get install -y `
+        lib32gcc1 lib32tinfo5 libcurl3-gnutls libstdc++6 libstdc++6:i386 libz1 &&`
+    apt-get clean &&`
+    rm -rf /var/lib/apt/lists/*;
+
+## Copy 'output files' in from builder
+COPY --from=hl2dm-builder /output /app
+
+## HL2DM is so large we can't reliably use multi-stage builds in docker cloud
+
+#Pull in SteamCMD
+COPY --from=hl2dm-builder /app /app/steamcmd
+
+# Install HL2DM using SteamCMD
+RUN echo $'\n\nDownloading Half-Life 2: Deathmatch via SteamCMD' &&`
+        /app/steamcmd/steamcmd.sh `
+            +login anonymous `
+            +force_install_dir /app `
+            +app_update 232370 validate `
+            +quit;
+
+#Add user "HL2DM". Assign to group "root" until [github.com/moby/moby/pull/34263] makes it into CE stable
+RUN mkdir --parents /app/.steam/sdk32 &&`
     useradd `
         --home /app `
-        --gid srcds `
+        --gid root `
         --system `
-        HL2DM &&`
-    chown -R HL2DM:srcds /app;
-
-USER HL2DM
+        HL2DM
 
 RUN ln -s /app/bin/steamclient.so /app/.steam/sdk32/steamclient.so
 
-# Copy in from SteamCMD Builder
-COPY --from=steamcmd-builder /output /app
+USER HL2DM
 
 WORKDIR /app
 
