@@ -16,7 +16,7 @@ RUN echo $'\n\nDownloading LL custom content from public ftp server' &&`
         bzip2 --decompress /tmp/maps/*.*.bz2 &&`
         rm -f /tmp/maps/*.bz2 &&`
     echo "Moving uncompressed files to destination" &&`
-        mkdir /app/output/hl2mp/maps --parents &&`
+        mkdir /output/hl2mp/maps --parents &&`
         mv /tmp/maps/*.* /output/hl2mp/maps;
 
 #=======================================================================
