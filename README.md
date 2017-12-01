@@ -1,4 +1,4 @@
-# Half-Life 2 Deathmatch Server in Docker
+# Half-Life 2 Deathmatch Dedicated Server in Docker
 
 ## Linux
 
@@ -10,18 +10,12 @@
 docker pull lacledeslan/gamesvr-hl2dm
 ```
 
-**Run self tests**
-```
-NOT YET IMPLEMENTED
-```
-
 **Run simple interactive server**
 ```
 docker run -it --rm --net=host lacledeslan/gamesvr-hl2dm ./srcds_run -game hl2mp +map dm_overwatch -console -usercon +sv_lan 1
 ```
 
-## Build Triggers
-Automated builds of this image can be triggered by the following sources:
-* [Builds of llgameserverbot/hl2dm-watcher](https://hub.docker.com/r/llgameserverbot/hl2dm-watcher/)
-* [Builds of llgameserverbot/gamesvr-trigger](https://hub.docker.com/r/llgameserverbot/gamesvr-trigger)
-* [Commits to GitHub repository](https://github.com/LacledesLAN/gamesvr-hl2dm)
+**Run self tests**
+```
+docker run -t --rm lacledeslan/gamesvr-hl2dm ./ll-tests/gamesvr-hl2dm.sh
+```
