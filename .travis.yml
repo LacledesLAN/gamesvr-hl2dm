@@ -1,0 +1,35 @@
+sudo: required
+
+os:
+  - linux
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+git:
+  depth: 4
+
+services:
+  - docker
+
+script:
+  - docker version
+  - docker build --no-cache --tag lacledeslan/gamesvr-hl2dm --build-arg BUILDNODE=TravisCI ./linux
+  - docker run -it --rm lacledeslan/gamesvr-hl2dm ./ll-tests/gamesvr-hl2dm.sh
+
+notifications:
+  slack:
+    secure: u5284fh/NEye3y4+LVkZ2/8Rly7FzaACZMqaVfUHPpndaEjbot1cUsOK0AJlbP6T8GTQHn6+4NDMJjl/XP/Zmr1uGmY7z/ZBZ5ylWuCr5Hd4yXf9cPHiqyi3LTD9xqTPEC6rzTqWuAix3ogheG/6RoZVnWt0rPCjLT6gUacZlufcgfcJznwRvqln7ovlPR/hapW2invRqR1PVjfg71eh5OCqGdX9aISuHOOZThCludEiQu/WdYuAz/x65sT5DMjjcMRISYkmBsNOm58v68frQF8lZeK2KMZb4FYPeLIRVZT6xVx90yujSLThjp/AGiuyZ/keWevKXjZ8b9IoeEvvOg8jUX+OnSaywmoq2VO+I2keCbqn3RuAHkoQmmZ64fHO5bN1TvNodNox8M3duwNmszfKmtswxP/rMS9LjjDyx6BJU2TRGUhroW4ZAoZHSho9rsoCZCou5hWmP3g16wiH6fJ/ONJ4c0PcVplZB/wn0Hbo6ay8Nza9njT4kuEc7aoZBla8G3oaVXiOa7YlHGJNJvw0AK1OtFXpHh0j3yMLUsLbwAHwJbDoxrk2BbS4WIHYFJ3CafGMjyN2GoqxpKAgib7TeRTI6BB8cMLwwJbBCWQAQWHDVztnCLxBro29ynwjlIWikdMptzLgLrUPti3OLpo44PI8Tp3F8jecneYMMz8=
+
+before_deploy:
+  - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASS";
+deploy:
+  provider: script
+  script: docker push lacledeslan/gamesvr-hl2dm
+  on:
+    branch: master
+after_deploy:
+ - curl -X POST https://hooks.microbadger.com/images/lacledeslan/gamesvr-hl2dm/$MICROBADGER_TOKEN
+ - sh ./.travis/trigger-travis.sh LacledesLAN gamesvr-hl2dm-freeplay $TRAVIS_ACCESS_TOKEN
