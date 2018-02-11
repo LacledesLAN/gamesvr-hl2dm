@@ -1,23 +1,22 @@
 sudo: required
-
-os:
-  - linux
-
+os: linux
+language: minimal
 addons:
   apt:
     packages:
-      - docker-ce
-
+    - docker-ce
 git:
   depth: 4
-
 services:
   - docker
 
+before_install:
+  - docker pull debian:stable-slim
+
 script:
   - docker version
-  - docker build --no-cache --tag lacledeslan/gamesvr-hl2dm --build-arg BUILDNODE=TravisCI ./linux
-  - docker run -it --rm lacledeslan/gamesvr-hl2dm ./ll-tests/gamesvr-hl2dm.sh
+  - docker build --no-cache --tag lltest/gamesvr-hl2dm --tag lacledeslan/gamesvr-hl2dm --build-arg BUILDNODE=TravisCI --build-arg SOURCE_COMMIT="$TRAVIS_COMMIT" ./linux
+  - docker run -it --rm lltest/gamesvr-hl2dm ./ll-tests/gamesvr-hl2dm.sh
 
 notifications:
   slack:
