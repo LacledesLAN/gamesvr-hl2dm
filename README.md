@@ -11,19 +11,21 @@ This repository is maintained by [Laclede's LAN](https://lacledeslan.com). Its c
 [![](https://images.microbadger.com/badges/version/lacledeslan/gamesvr-hl2dm.svg)](https://microbadger.com/images/lacledeslan/gamesvr-hl2dm "Get your own version badge on microbadger.com")
 [![](https://images.microbadger.com/badges/image/lacledeslan/gamesvr-hl2dm.svg)](https://microbadger.com/images/lacledeslan/gamesvr-hl2dm "Get your own image badge on microbadger.com")
 
-**Download**
+### Download
 
 ```shell
 docker pull lacledeslan/gamesvr-hl2dm;
 ```
 
-**Run self tests**
+### Run Self Tests
+
+The image includes a test script that can be used to verify its contents. No changes or pull-requests will be accepted to this repository if any tests fail.
 
 ```shell
 docker run -t --rm lacledeslan/gamesvr-hl2dm ./ll-tests/gamesvr-hl2dm.sh;
 ```
 
-**Run simple interactive server**
+### Run Simple, Interactive Server
 
 ```shell
 docker run -it --rm --net=host lacledeslan/gamesvr-hl2dm ./srcds_run -game hl2mp +map dm_overwatch -console -usercon +sv_lan 1;
