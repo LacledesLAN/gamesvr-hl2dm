@@ -21,7 +21,7 @@ RUN echo $'\n\nDownloading LL custom content from content server' &&`
         mv -n *.bsp /output/hl2mp/maps;
 
 #=======================================================================
-FROM debian:stable-slim
+FROM debian:stretch-slim
 
 ARG BUILDNODE=unspecified
 ARG SOURCE_COMMIT=unspecified
