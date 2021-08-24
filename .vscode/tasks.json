@@ -4,19 +4,18 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build",
+            "label": "Linux - Build Image",
             "type": "shell",
-            "command": "docker pull lacledeslan/steamcmd:linux; docker pull debian:stable-slim; docker build ./linux -t lltest/gamesvr-hl2dm --no-cache --build-arg BUILDNODE=$env:computername;",
+            "command": "docker pull lacledeslan/steamcmd:linux; docker pull debian:bullseye-slim; docker build -f linux.Dockerfile -t lltest/gamesvr-hl2dm --no-cache --build-arg BUILDNODE=$env:computername .;",
             "group": "build",
-            "identifier": "build-image",
             "problemMatcher": [],
             "promptOnClose": true
         },
         {
-            "label": "Build & Execute Self Tests",
+            "label": "Linux - Build & Execute Self Tests",
             "type": "shell",
             "command": "docker run -it --rm lltest/gamesvr-hl2dm ./ll-tests/gamesvr-hl2dm.sh;",
-            "dependsOn": "build-image",
+            "dependsOn": "Linux - Build Image",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -25,19 +24,19 @@
             "promptOnClose": true
         },
         {
-            "label": "Build & Run Interactive Server",
+            "label": "Linux - Build & Run Interactive Server",
             "type": "shell",
             "command": "docker run -it --net=host lltest/gamesvr-hl2dm ./srcds_run -game hl2mp +map dm_overwatch +sv_lan 1",
-            "dependsOn": "build-image",
+            "dependsOn": "Linux - Build Image",
             "group": "build",
             "problemMatcher": [],
             "promptOnClose": true
         },
         {
-            "label": "Build & Shell In",
+            "label": "Linux - Build & Shell In",
             "type": "shell",
             "command": "docker run -it --net=host --rm lltest/gamesvr-hl2dm;",
-            "dependsOn": "build-image",
+            "dependsOn": "Linux - Build Image",
             "group": "build",
             "problemMatcher": [],
             "promptOnClose": true

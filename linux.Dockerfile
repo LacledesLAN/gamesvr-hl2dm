@@ -4,7 +4,7 @@ FROM lacledeslan/steamcmd:linux as hl2dm-builder
 ARG contentServer=content.lacledeslan.net
 
 # Copy cached build files (if any)
-COPY ./build-cache /output
+COPY ./dist/build-cache /output
 
 # Download Half-Life Deathmatch Source Dedicated Server
 RUN mkdir --parents /output &&`
@@ -21,7 +21,7 @@ RUN echo $'\n\nDownloading LL custom content from content server' &&`
         mv -n *.bsp /output/hl2mp/maps;
 
 #=======================================================================
-FROM debian:stretch-slim
+FROM debian:bullseye-slim
 
 ARG BUILDNODE=unspecified
 ARG SOURCE_COMMIT=unspecified
@@ -30,7 +30,7 @@ HEALTHCHECK NONE
 
 RUN dpkg --add-architecture i386 &&`
     apt-get update && apt-get install -y `
-        ca-certificates lib32gcc1 lib32tinfo5 libstdc++6 libstdc++6:i386 locales locales-all tmux &&`
+        ca-certificates lib32gcc-s1 libtinfo5:i386 libstdc++6 libstdc++6:i386 locales locales-all tmux &&`
     apt-get clean &&`
     echo "LC_ALL=en_US.UTF-8" >> /etc/environment &&`
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*;
@@ -52,7 +52,7 @@ RUN useradd --home /app --gid root --system HL2DM &&`
 
 COPY --chown=HL2DM:root --from=hl2dm-builder /output /app
 
-COPY --chown=HL2DM:root ./ll-tests /app/ll-tests
+COPY --chown=HL2DM:root ./dist/ll-tests /app/ll-tests
 
 RUN chmod +x /app/ll-tests/*.sh;
 
