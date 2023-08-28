@@ -153,6 +153,7 @@ should_lack 'steamclient.so: cannot open shared object file: No such file or dir
 should_have 'server_srv.so loaded for "Half-Life 2 Deathmatch"' 'srcds_run loaded Half-Life 2: Deathmatch';
 should_have 'Server is hibernating' 'srcds_run succesfully hibernated';
 should_echo "sv_cheats" '"sv_cheats" = "0"';
+should_lack "Warning: failed to init SDL thread priority manager: SDL not found" 'SDL thread priority manager is not missing';
 #####################################################################################################
 #####################################################################################################
 
