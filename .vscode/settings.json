@@ -3,6 +3,7 @@
         "buildnode",
         "deathmatch",
         "dockerhub",
+        "dpkg",
         "freeplay",
         "gamesvr",
         "ghcr",
@@ -11,6 +12,7 @@
         "qemu",
         "srcds",
         "steamclient",
+        "steamcmd",
         "username"
     ]
 }

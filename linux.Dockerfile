@@ -49,7 +49,7 @@ LABEL com.lacledeslan.build-node=$BUILDNODE `
 
 # Set up Environment
 RUN useradd --home /app --gid root --system HL2DM &&`
-    mkdir --parents /app/.steam/sdk32 /app/hl2mp/logs &&`
+    mkdir --parents /app/.steam/sdk32 &&`
     chown HL2DM:root -R /app;
 
 COPY --chown=HL2DM:root --from=hl2dm-builder /output /app
