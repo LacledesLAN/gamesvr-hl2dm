@@ -2,7 +2,7 @@
 
 #####################################################################################################
 ### CONFIG VARS #####################################################################################
-declare LLTEST_CMD="/app/srcds_run -game hl2mp +map dm_datacore -insecure -norestart +sv_lan 1";
+declare LLTEST_CMD="/app/srcds_run -game hl2mp +map dm_overwatch -insecure -norestart +sv_lan 1";
 declare LLTEST_NAME="gamesvr-hl2dm-$(date '+%H%M%S')";
 #####################################################################################################
 #####################################################################################################
@@ -151,9 +151,10 @@ should_lack 'Running the dedicated server as root' 'Server is not running under 
 should_lack 'WARNING: Failed to load 32-bit libtinfo.so.5 or libncurses.so.5' 'Has dependency lib32tinfo5';
 should_lack 'steamclient.so: cannot open shared object file: No such file or directory' 'steamclient.so hack is working';
 should_have 'server_srv.so loaded for "Half-Life 2 Deathmatch"' 'srcds_run loaded Half-Life 2: Deathmatch';
-should_have 'Server is hibernating' 'srcds_run succesfully hibernated';
+should_have 'Server is hibernating' 'srcds_run successfully hibernated';
 should_echo "sv_cheats" '"sv_cheats" = "0"';
 should_lack "Warning: failed to init SDL thread priority manager: SDL not found" 'SDL thread priority manager is not missing';
+should_lack 'map load failed: dm_overwatch not found or invalid' 'Able to load stock map dm_overwatch';
 #####################################################################################################
 #####################################################################################################
 
