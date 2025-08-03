@@ -8,6 +8,9 @@ COPY ./dist/build-cache /output
 RUN mkdir --parents /output &&`
     /app/steamcmd.sh +force_install_dir /output +login anonymous +app_update 232370 validate +quit;
 
+# Copy test scripts
+COPY ./dist/ll-tests /output/ll-tests
+
 #=======================================================================
 FROM debian:bookworm-slim
 
