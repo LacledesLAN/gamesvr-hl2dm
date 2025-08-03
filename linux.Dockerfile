@@ -1,5 +1,5 @@
 # escape=`
-FROM lacledeslan/steamcmd as hl2dm-builder
+FROM lacledeslan/steamcmd AS hl2dm-builder
 
 ARG contentServer=content.lacledeslan.net
 
@@ -47,9 +47,9 @@ LABEL com.lacledeslan.build-node=$BUILDNODE `
       org.label-schema.description="Half-Life 2 Deathmatch Dedicated Server" `
       org.label-schema.vcs-url="https://github.com/LacledesLAN/gamesvr-hl2dm"
 
-# Set up Enviornment
+# Set up Environment
 RUN useradd --home /app --gid root --system HL2DM &&`
-    mkdir --parents /app/.steam/sdk32 &&`
+    mkdir --parents /app/.steam/sdk32 /app/hl2mp/logs &&`
     chown HL2DM:root -R /app;
 
 COPY --chown=HL2DM:root --from=hl2dm-builder /output /app
