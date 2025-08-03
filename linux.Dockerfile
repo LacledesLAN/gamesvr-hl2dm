@@ -1,8 +1,6 @@
 # escape=`
 FROM lacledeslan/steamcmd AS hl2dm-builder
 
-ARG contentServer=content.lacledeslan.net
-
 # Copy cached build files (if any)
 COPY ./dist/build-cache /output
 
