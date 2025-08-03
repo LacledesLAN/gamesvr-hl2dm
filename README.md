@@ -2,14 +2,13 @@
 
 Half-Life 2: Deathmatch is a multiplayer first-person shooter that uses many of the assets from Half-Life 2 and its Source engine. It features new levels, optimized for multiplayer arena play, and a few new weapons. Deathmatch includes some notable features such as instant respawn; weapons that have specific spawn points; and special abilities (sprint, flashlight, etc.).
 
-![Half-Life 2: Deathmatch Screenshot](https://raw.githubusercontent.com/LacledesLAN/gamesvr-hl2dm/master/.misc/screenshot1.jpg "Half-Life 2: Deathmatch Screenshot")
+![Half-Life 2: Deathmatch Screenshot](https://raw.githubusercontent.com/LacledesLAN/gamesvr-hl2dm/master/Documentation/screenshots/screenshot01.jpg "Half-Life 2: Deathmatch Screenshot")
 
 This repository is maintained by [Laclede's LAN](https://lacledeslan.com). Its contents are intended to be bare-bones and used as a stock server. For examples of building a customized server from this Docker image browse its related child-project [gamesvr-hl2dm-freeplay](https://github.com/LacledesLAN/gamesvr-hldms-freeplay). If any documentation is unclear or it has any issues please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Linux
 
-[![](https://images.microbadger.com/badges/version/lacledeslan/gamesvr-hl2dm.svg)](https://microbadger.com/images/lacledeslan/gamesvr-hl2dm "Get your own version badge on microbadger.com")
-[![](https://images.microbadger.com/badges/image/lacledeslan/gamesvr-hl2dm.svg)](https://microbadger.com/images/lacledeslan/gamesvr-hl2dm "Get your own image badge on microbadger.com")
+[![linux/amd64](https://github.com/LacledesLAN/gamesvr-hl2dm/actions/workflows/build-linux-image.yml/badge.svg)](https://github.com/LacledesLAN/gamesvr-hl2dm/actions/workflows/build-linux-image.yml)
 
 ### Download
 
