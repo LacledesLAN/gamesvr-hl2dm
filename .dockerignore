@@ -1,0 +1,5 @@
+.documentation/**
+.git/**
+.github/**
+.vscode/**
+tests/**

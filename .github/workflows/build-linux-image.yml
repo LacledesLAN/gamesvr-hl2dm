@@ -18,8 +18,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
+      - name: Install tmux
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes tmux
       - name: Pull Latest Linux Base Image
         run: docker pull debian:bullseye-slim
       - name: Build Linux Image
@@ -35,7 +37,7 @@ jobs:
             SOURCE_COMMIT=${{ github.sha }}
           no-cache: true
       - name: Test Linux Image
-        run: docker run --rm lacledeslan/gamesvr-hl2dm:latest /app/ll-tests/gamesvr-hl2dm.sh
+        run: ./tests/gamesvr-hl2dm.sh lacledeslan/gamesvr-hl2dm /app/srcds_run -game hl2mp +map dm_overwatch -insecure -norestart
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/login-action@v4.4.0
