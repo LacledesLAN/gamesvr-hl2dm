@@ -22,8 +22,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes tmux
-      - name: Pull Latest Linux Base Image
-        run: docker pull debian:bullseye-slim
       - name: Build Linux Image
         uses: docker/build-push-action@v7.3.0
         with:
@@ -35,6 +33,7 @@ jobs:
           build-args: |
             BUILDNODE=GitHub (Run Number: ${{ github.run_number }} Run ID: ${{ github.run_id }})
             SOURCE_COMMIT=${{ github.sha }}
+          pull: true
           no-cache: true
       - name: Test Linux Image
         run: ./tests/gamesvr-hl2dm.sh lacledeslan/gamesvr-hl2dm /app/srcds_run -game hl2mp +map dm_overwatch -insecure -norestart
