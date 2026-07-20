@@ -11,22 +11,20 @@ RUN rm -rf /output/bin/linux64 && \
 #-------
 FROM debian:trixie-slim
 
-ARG BUILDNODE=unspecified
-ARG SOURCE_COMMIT=unspecified
-
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ARG BUILD_NODE=unspecified
+ARG GIT_REVISION=unspecified
 
 HEALTHCHECK NONE
 
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+
 LABEL architecture="amd64" \
-      maintainer="Laclede's LAN <contact@lacledeslan.com>" \
-      com.lacledeslan.build-node=$BUILDNODE \
-      org.label-schema.schema-version="1.0" \
-      org.label-schema.url="https://github.com/LacledesLAN/README.1ST" \
-      org.opencontainers.image.description="Half-Life 2 Deathmatch Dedicated Server" \
-      org.opencontainers.image.revision=$SOURCE_COMMIT \
-      org.opencontainers.image.source="https://github.com/LacledesLAN/gamesvr-hl2dm" \
-      org.opencontainers.image.vendor="Laclede's LAN"
+    com.lacledeslan.build-node="$BUILD_NODE" \
+    maintainer="Laclede's LAN <contact@lacledeslan.com>" \
+    org.opencontainers.image.description="Half-Life 2 Deathmatch Dedicated Server" \
+    org.opencontainers.image.revision="$GIT_REVISION" \
+    org.opencontainers.image.source="https://github.com/LacledesLAN/gamesvr-hl2dm" \
+    org.opencontainers.image.vendor="Laclede's LAN"
 
 # The HL2DM server benefits from libtinfo.so.5, which is not available in Debian 12+ (Bookworm).
 COPY ./dist/libtinfo.5_6.4.4/i386/lib/i386-linux-gnu/libtinfo.so.5.9 /lib/i386-linux-gnu/libtinfo.so.5
