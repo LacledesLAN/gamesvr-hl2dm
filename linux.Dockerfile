@@ -8,23 +8,26 @@ RUN mkdir --parents /output && \
 RUN rm -rf /output/bin/linux64 && \
     rm -rf /output/hl2mp/bin/linux64;
 
-#-------
+
+#---------------------------------
 FROM debian:trixie-slim
 
-ARG BUILD_NODE=unspecified
-ARG GIT_REVISION=unspecified
+ARG BUILD_DATE=unspecified \
+    BUILD_NODE=unspecified \
+    GIT_REVISION=unspecified
 
 HEALTHCHECK NONE
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 LABEL architecture="amd64" \
-    com.lacledeslan.build-node="$BUILD_NODE" \
-    maintainer="Laclede's LAN <contact@lacledeslan.com>" \
-    org.opencontainers.image.description="Half-Life 2 Deathmatch Dedicated Server" \
-    org.opencontainers.image.revision="$GIT_REVISION" \
-    org.opencontainers.image.source="https://github.com/LacledesLAN/gamesvr-hl2dm" \
-    org.opencontainers.image.vendor="Laclede's LAN"
+      com.lacledeslan.build-node="$BUILD_NODE" \
+      maintainer="Laclede's LAN <contact@lacledeslan.com>" \
+      org.opencontainers.image.created="$BUILD_DATE" \
+      org.opencontainers.image.description="Half-Life 2 Deathmatch Dedicated Server" \
+      org.opencontainers.image.revision="$GIT_REVISION" \
+      org.opencontainers.image.source="https://github.com/LacledesLAN/gamesvr-hl2dm" \
+      org.opencontainers.image.vendor="Laclede's LAN"
 
 # The HL2DM server benefits from libtinfo.so.5, which is not available in Debian 12+ (Bookworm).
 COPY ./dist/libtinfo.5_6.4.4/i386/lib/i386-linux-gnu/libtinfo.so.5.9 /lib/i386-linux-gnu/libtinfo.so.5
