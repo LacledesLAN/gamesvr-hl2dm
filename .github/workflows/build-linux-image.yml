@@ -28,7 +28,6 @@ jobs:
         with:
           context: .
           file: ./linux.Dockerfile
-          allow: network.host
           tags: |
             lacledeslan/gamesvr-hl2dm:latest
             ghcr.io/lacledeslan/gamesvr-hl2dm:latest
@@ -38,7 +37,6 @@ jobs:
             GIT_REVISION=${{ github.sha }}
           pull: true
           no-cache: true
-          network: host
       - name: Test Linux Image
         run: ./tests/gamesvr-hl2dm.sh lacledeslan/gamesvr-hl2dm /app/srcds_run -game hl2mp +map dm_overwatch -insecure -norestart
       - name: Login to DockerHub
