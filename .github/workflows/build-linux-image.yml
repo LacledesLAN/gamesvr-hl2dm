@@ -13,7 +13,8 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    # Ubuntu 26.04's Docker 29.4.2 blocks SteamCMD's 32-bit socket calls.
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
